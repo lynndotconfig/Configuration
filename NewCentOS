@@ -14,7 +14,7 @@ chkconfig iptables --level 2345 off
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 yum -y install ntpdate
 crontab -e
-  1 4 * * * /usr/sbin/ntpdate asia.pool.ntp.org
+  1 4 * * * /usr/sbin/ntpdate asia.pool.ntp.org 2>&1
 
 yum -y update
 shutdown -r now
