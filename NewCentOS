@@ -26,7 +26,7 @@ shutdown -r now
 sed -i "s/#PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
 useradd exuxu
 passwd exuxu
-/etc/init.d/ssd start
+/etc/init.d/sshd start
 	# 2.Deny of Host
 yum -y install wget python
 wget http://sourceforge.net/projects/denyhosts/files/denyhosts/2.6/DenyHosts-2.6.tar.gz
@@ -44,8 +44,9 @@ chkconfig --level 2345 denyhosts on
 ####################
  Enviroment 
 ####################
-yum -y install make cmake perl gcc gcc-c++  lrzsz unzip zip openssh-clients lsof vim nc wget curl telnet nmap traceroute man ntpd mlocate dos2unix python
-perl-DBI perl curl-devel net-snmp net-snmp-devel 
+yum -y install make cmake lrzsz unzip zip  lsof vim nc wget curl telnet nmap traceroute man ntpd mlocate dos2unix  mailx
+
+	python perl perl-DBI perl curl-devel  net-snmp net-snmp-devel openssh-clients gcc gcc-c++  
 	httpd  
 	mysql mysql-server mysql-devel   
 	php php-mysql php-gd libjpeg* php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-mcrypt php-bcmath php-mhash libmcrypt php-gd php-xml php-bcmath php-xmlrpc php-mbstring php-mcrypt php-bcmath php-mhash   php-fpm libmcrypt-devel php-devel
