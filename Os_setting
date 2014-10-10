@@ -8,6 +8,8 @@ dhclient
 sed -i "s/ONBOOT=no/ONBOOT=yes/" /etc/sysconfig/network-scripts/ifcfg-eth0 
 	#vi /etc/sysconfig/selinux
 sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/sysconfig/selinux 
+sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
+
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 chkconfig iptables --level 2345 off
