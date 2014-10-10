@@ -2,7 +2,7 @@ zabbix server centos
 yum install  -y httpd
 yum install -y mysql mysql-server mysql-devel
 yum install -y php-mysql php-gd libjpeg* php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-mcrypt php-bcmath php-mhash libmcrypt curl curl-devel net-snmp net-snmp-devel perl-DBI php-gd php-xml 
-yum install -y telnet nmap traceroute man ntpd wget mlocate unzip dos2unix perl make gcc  
+yum install -y telnet nmap traceroute man ntp wget mlocate unzip dos2unix perl make gcc  
 
 chkconfig ntpd on
 /etc/init.d/ntpd start
