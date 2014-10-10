@@ -20,7 +20,7 @@ yum install zabbix-server-mysql zabbix-web-mysql zabbix-agent -y
 mysql -uroot -p
 >UPDATE mysql.user SET Password=PASSWORD('xxxxx') WHERE User='zabbix' and Host='localhost';
 >create database zabbix ;
->grant all on zabbix.* to 'zabbix'@'%' identified by 'xxxxx';        ### 'zabbix'@'localhost' FOR CONNECT　FROM LOCALHOST
+>grant all on zabbix.* to 'zabbix'@'localhost' identified by 'xxxxx';       
 >flush privileges;
 >exit;
 cd /usr/share/doc/zabbix-server-mysql-xxx/create/
