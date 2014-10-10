@@ -7,6 +7,9 @@ yum install -y telnet nmap traceroute man ntp wget mlocate unzip dos2unix perl m
 chkconfig ntpd on
 /etc/init.d/ntpd start
 
+chkconfig httpd on
+/etc/init.d/httpd start
+
 chkconfig mysqld on
 /etc/init.d/mysqld start
 
