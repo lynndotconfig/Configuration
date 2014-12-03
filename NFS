@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+
+#Server[yum install nfs/portmap]
+chkconfig nfs --level 35 on
+chkconfig portmap --level 35 on
+vi /etc/exports
+;  /data/web 10.163.219.219/24(rw)
+service portmap restart
+service nfs restart
+
+
+#[Extra]
+showmount -e　
+showmount -a
+
+
+#Client[yum install portmap]
+chkconfig portmap --level 35 on
+service portmap start
+#mount -t nfs 10.163.193.207:/data/web /data/web
+mount -t nfs 10.163.193.207:/data/web /data/web -o nosuid,noexec,nodev,rw,bg,soft,intr,noatime,rsize=32768,wsize=32768
+echo "10.163.193.207:/data/web	/data/web	nfs	(rw,noexec,nosuid,nodev,noatime,bg,soft,intr,rsize=32768,wsize=32768)	0 0"  > /etc/fstab
