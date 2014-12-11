@@ -61,7 +61,9 @@ grant/revoke need reconnect server,for it works.
 	SHOW TRIGGERS [FROM db_name] [LIKE expr]        ;;trigger
 	SHOW TRIGGERS\G
 	SELECT * FROM information_schema.triggers  
-
+	
+	show engines;					;;engines
+	show variables like '%storage_engine%';
 
 4.[character setting]
 ;;show character set 
