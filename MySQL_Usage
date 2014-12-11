@@ -1,0 +1,109 @@
+#!/bin/bash
+
+
+1.[MysqlDump]
+==export==
+mysqldump -uusername -ppassword  --all-databases > all.sql      ;;all database   
+mysqldump -uusername -ppassword --databases db1 db2 > db1db2.sql  ;;databases
+mysqldump -uusername -ppassword db1 table1 table2 > tb1tb2.sql  ;;table of database
+
+==import==
+>source all.sql           ;;all databases
+>source db1db2.sql        ;;databases
+mysql -uusername -ppassword db1 < db1.sql;      ;;database
+mysql -uusername -ppassword db1 < tb1tb2.sql      ;;table of database
+	>user db1;
+	>source tb1tb2.sql;
+
+
+2.[Grant]	
+grant/revoke need reconnect server,for it works.
+'with grant option' can trans these option to another users.
+'%' any host may not include localhost sometimes.
+;;  
+	grant all privileges on *.* to "root"@"%" identified by "password";
+	grant all privileges on *.* to 'root'@'%' identified by 'xxxxxx_remote' with grant option;
+    grant select,update,intert,delete on logs.b_player_info  to 'exuxu'@'10.2.10.10' identified by 'xxxxxx';
+;; orange mysql user	
+	grant select/insert/update/delete on testdb.* to common_user@'%';
+;; db developer 
+	grant create/alter/drop/references/index/ on testdb.* to developer@'192.168.0.%';
+	grant create temporary tables on testdb.* to developer@'192.168.0.%';			;; temporary table 
+	grant create/show view on testdb.* to developer@'192.168.0.%';					;; show view sql code 
+	grant create/alter routine on testdb.* to developer@'192.168.0.%'; 				;; Procedure 
+	grant execute  on testdb.* to developer@'192.168.0.%';							;; Function
+
+	grant all privileges on testdb to dba@'localhost'       ;; general  dba
+	grant all on *.* to dba@'localhost'             ;; advance  dba
+	revoke all on *.* from dba@localhost;           ;;Remove competence
+	GRANT USAGE ON *.* TO 'dummy'@'localhost';        ;;login only with even select
+ 
+
+3.[Show something]
+
+	show grants;                      ;;Competence
+	show grants for dba@localhost;
+	
+	SHOW VARIABLES LIKE 'character_set_%';    ;;Character set
+	
+	select `name` from mysql.proc where db = 'your_db_name' and `type` = 'PROCEDURE';	        ;;Procedure
+	show procedure status;
+
+	select `name` from mysql.proc where db = 'your_db_name' and `type` = 'FUNCTION';        ;;Function
+	show function status;
+
+	show create procedure proc_name;            ;;create procedure	
+	show create function func_name;
+
+	SELECT * from information_schema.VIEWS        ;;create view	
+	SELECT * from information_schema.TABLES 	
+
+	SHOW TRIGGERS [FROM db_name] [LIKE expr]        ;;trigger
+	SHOW TRIGGERS\G
+	SELECT * FROM information_schema.triggers  
+
+
+4.[character setting]
+;;show character set 
+SHOW VARIABLES LIKE 'character_set_%';
+		character_set_client
+		character_set_connection
+		character_set_database
+		character_set_server
+;;show collate character set
+show character set;
+
+;;setting character set 
+	/etc/my.cnf
+	[mysql]
+	default-character-set=utf8
+	[mysqld]
+	character_set_server=utf8
+	collation-server=utf8_general_ci
+	default-character-set=utf8
+
+
+5.[sql slow query]
+show variables like "%slow%"; 
+;;open slow query log and query time
+	set global long_query_time=5; 
+	set global slow_query_log='ON'; 
+;;modify config of "my.cnf"
+	long_query_time = 5  
+	log-slow-queries = /var/log/mysql/mysql-slow.log  	
+
+	
+6.[Mysql connect failed, mysql.sock not exists ?]
+Mysql clinet connect mysql server through   socket ,relate files is 'mysql.sock',if it doesn't exists,the mysql server need restart.
+If cann't restart it instantly,try this "mysql   -u root -p -h localhost --protocol tcp  ",it means change connect protocol to tcp,but not socket.
+
+
+7.[Mysql root password forget ?] 
+	service mysqld stop ;; OR  mysqladmin -u root -p shutdown
+	/usr/bin/mysqld_safe --skip-grant-tables & 
+	mysql
+	>>update mysql.user set password=password('xxxxxx') where user='root' and host='localhost';
+	>>flush privileges;
+	>>exit
+	service mysqld restart
+	
