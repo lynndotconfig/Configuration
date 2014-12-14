@@ -98,13 +98,17 @@ show variables like "%slow%";
 
 	
 6.[Mysql connect failed, mysql.sock not exists ?]
+mysql -h 127.0.0.1 
+	use tcp/ip protocol,it need refer to the connect port like '3306':" mysql -h 127.0.0.1 3306"
+mysql -h localhost
+	use unix socket 
 Mysql clinet connect mysql server through   socket ,relate files is 'mysql.sock',if it doesn't exists,the mysql server need restart.
 If cann't restart it instantly,try this "mysql   -u root -p -h localhost --protocol tcp  ",it means change connect protocol to tcp,but not socket.
 
 
 7.[Mysql root password forget ?] 
-	service mysqld stop ;; OR  mysqladmin -u root -p shutdown
-	/usr/bin/mysqld_safe --skip-grant-tables & 
+	service mysqld stop			 ;; OR  “mysqladmin -u root -p shutdown”
+	/usr/bin/mysqld_safe --skip-grant-tables & 	;;mysql login  without check user grants
 	mysql
 	>>update mysql.user set password=password('xxxxxx') where user='root' and host='localhost';
 	>>flush privileges;
