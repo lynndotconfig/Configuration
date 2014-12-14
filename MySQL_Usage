@@ -114,4 +114,109 @@ If cann't restart it instantly,try this "mysql   -u root -p -h localhost --proto
 	>>flush privileges;
 	>>exit
 	service mysqld restart
+
+8.LOG
 	
+	log-err	 
+		 show variables like 'log_error';
+	log	
+		 show variables like 'log_%'; 
+	log-slow-queries
+		 show variables like "long_query_time";
+		 show status like "%slow_queries%";
+		 show variables like "%slow%";
+	log-update  
+	log-bin		 
+		 show binary logs;
+		 show master logs;
+		 show master status;
+		 mysqlbinlog mysql-bin.000017;		;;Read  binlog content
+
+[mysqld]	
+log=/data/mysqllog/mysqlcmd.log			;;recommand not record for large  query
+log-err=/data/mysqllog/mysqlerr.log		
+log-slow-queries=/data/mysqllog/mysql-slow-query.log
+long_query_time=5
+log-update=/data/mysqllog/mysql-update.log
+log-bin=/data/mysqllog/mysql-bin.log
+	
+[mysqld_safe]
+log-error=/data/mysqllog/mysqld_safe.log
+
+9.Backup
+------------------------------
+#!/bin/bash
+#File: /data/crontab/backup_db.sh 
+#Usage : backup dyqlb database
+#Content: zip the dyqlb database,move to the backup dir,then delete the backup file 5 days before 
+#Author: exuxu
+
+dt=`date +%Y%m%d%H%M%S`
+bkdir=/data/backup
+
+/usr/local/mysql/bin/mysqldump -uusername -ppassword --databases  databasename | gzip -9 > /data/backup/mysql_backup.$dt.gz
+;;cd /data/backup
+;;/usr/local/mysql/bin/mysqldump -uusername -ppassword --databases  databasename  > tmp.sql
+;;tar czf mysql_backup.$dt.tar.gz tmp.sql 		;;with untar"tar xzf  mysql_backup.$dt.tar.gz  "
+;;rm -f tmp.sql
+cd /data/backup
+find  $bkdir  -name "mysql_backup.*.gz" -mtime +5 -exec rm {} \;  &> /dev/null 
+------------------------------
+crontab -e
+	0 4 * * * /data/crontab/backup_db.sh
+	
+10.Security setting
+~Iptables 
+ 	iptables -A INPUT -p tcp -s xxxx.xxxx.xxxx.xxxx/24 --dport 3306 -j ACCEPT
+ 	iptables -P INPUT DROP
+~port setting
+	[mysqld]
+	port=3306
+~mysql client connection number limit
+	[mysqld]
+	max_user_connections 2
+~passwords policy
+	mysql password，web password
+mysql deamon running  account
+mysql permission with read(4) and write(2) without execution(1). 
+Chrooting Enviroment
+histroy commands
+	cat /dev/null > ~/.bash_history
+
+~In MySQL:
+	user->db->tables_priv->columns_pri
+ 
+user:
+	GRANT OPTION	
+			GRANT select privileges ON db1.tb1 TO 'name1' ;
+			GRANT select ON db1.tb1 TO 'name1' WITH GRANT OPTION;
+			name1: GRANT select ON db1.tb1 TO 'name2' WITH GRANT OPTION; 
+	REFERENCES
+	ALTER ROUTINE/CREATE ROUTINE/EXECUTE
+	FILE
+	CREATE TEMPORARY TABLES
+	LOCK TABLES
+	CREATE USER
+	PROCESS
+	RELOAD			flush-hosts, flush-logs, flush-privileges, flush-status, flush-tables, flush-threads, refresh, reload
+	REPLICATION CLIENT
+	REPLICATION SLAVE
+	SHOW DATABASES
+		/etc/init.d/mysql start --skip-show-database		
+	SHUTDOWN
+		>>grant shutdown on  *.* to 'username'@'hostip';
+		$ mysqladmin -uusername shutdown
+	SUPER
+
+DB
+	Drop                 
+	Grant               
+	References             
+	Create_data/tmp_table          
+	Lock_tables             
+	Create_routine         
+	Alter_routine        
+	Execute         
+	Event               
+	Trigger 
+ 
