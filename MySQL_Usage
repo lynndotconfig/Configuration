@@ -37,7 +37,9 @@ grant/revoke need reconnect server,for it works.
 	grant all on *.* to dba@'localhost'             ;; advance  dba
 	revoke all on *.* from dba@localhost;           ;;Remove competence
 	GRANT USAGE ON *.* TO 'dummy'@'localhost';        ;;login only with even select
- 
+ 	drop user 'username'@'localhost';		;;delete mysql user
+	rename user 'name1'@'%' to 'nam2'@'%';		;;rename mysql user
+	set password for 'username'@'localhost' = password('userpassword');		;;change password of mysql suer
 
 3.[Show something]
 
