@@ -1,6 +1,10 @@
 #!/bin/bash
 #Installation of DenyHosts
 # run as 'root' default
+  #Denyhosts 
+  ## protect from ssh blasting ,It analysis file /var/log/secure,if find abnormal ssh request,the add its ip to  /etc/hosts.deny  
+  ## Otherwise,it will unblock the ip while sometimes.
+  ## official website: http://denyhosts.sourceforge.net/
 # Time:2014.12.16
 echo "=====Scripts execution starts====="
 wget http://sourceforge.net/projects/denyhosts/files/denyhosts/2.6/DenyHosts-2.6.tar.gz
