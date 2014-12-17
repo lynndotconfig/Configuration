@@ -69,7 +69,8 @@ grant/revoke need reconnect server,for it works.
 
 4.[character setting]
 ;;show table status
-show table status from om  like 'iplist';
+show table status from dbname  like 'tablename';
+show full columns from dbname.tablename;
 ;;show character set 
 SHOW VARIABLES LIKE 'character_set_%';
 		character_set_client
