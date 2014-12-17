@@ -68,6 +68,8 @@ grant/revoke need reconnect server,for it works.
 	show variables like '%storage_engine%';
 
 4.[character setting]
+;;show table status
+show table status from om  like 'iplist';
 ;;show character set 
 SHOW VARIABLES LIKE 'character_set_%';
 		character_set_client
