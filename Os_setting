@@ -70,7 +70,9 @@ cp daemon-control-dist daemon-control
 ln -s /usr/share/denyhosts/daemon-control /etc/init.d/denyhosts
 chkconfig --add denyhosts
 chkconfig --level 2345 denyhosts on
-
+	# 3.Iptables
+	
+	
 ####################
  Enviroment 
 ####################
