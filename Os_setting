@@ -13,8 +13,22 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 chkconfig iptables --level 2345 off
-rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-#rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+
+####################
+#  Instal EPEL
+####################
+os567=`rpm -q centos-release | awk -F '-' '{print $3}'`
+if [ $os567 -eq 5 ];then
+	echo 'OS: CentOS 5'
+	rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm  
+elif [ $os567 -eq 6 ];then
+	echo 'OS: CentOS 6'
+	rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm 
+elif [ $os567 -eq 7 ];then 
+	echo 'OS: CentOS 7'
+	rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-1.noarch.rpm
+fi
+ 
 
 ####################
 # TNP TIME SYNC
