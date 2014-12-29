@@ -51,10 +51,11 @@ shutdown -r now
 ####################
 # Security
 ####################
-	# 1.District exuxu
+	# 1.District root remote login
 sed -i "s/#PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
 useradd exuxu
-passwd exuxu
+echo 'password.(*()' > pswd_celebi.txt
+passwd celebi --stdin < pswd_celebi.txt
 /etc/init.d/sshd start
 	# 2.Deny of Host
 yum -y install wget python
