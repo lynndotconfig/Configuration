@@ -18,6 +18,8 @@ rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 yum -y install ntpdate
 crontab -e
   1 4 * * * /usr/sbin/ntpdate asia.pool.ntp.org 2>&1
+/usr/sbin/ntpdate asia.pool.ntp.org
+hwclock --systohc
 
 yum -y update
 shutdown -r now
