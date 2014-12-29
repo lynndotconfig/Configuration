@@ -15,17 +15,27 @@ echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 chkconfig iptables --level 2345 off
 rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 #rpm -Uvh http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
-yum -y install ntpdate
-crontab -e
-  1 4 * * * /usr/sbin/ntpdate asia.pool.ntp.org 2>&1
-/usr/sbin/ntpdate asia.pool.ntp.org
-hwclock --systohc
+
+####################
+# TNP TIME SYNC
+####################
+isntp=`ps aux|grep ntpd |grep -v  'grep' |wc -l`
+if [ $isntp -eq 1 ];
+then
+        echo 'NTP Installation over!!'
+else
+        echo 'NTP not Installed,Installing now ...'
+        yum -y install ntpdate
+        /usr/sbin/ntpdate asia.pool.ntp.org
+        hwclock --systohc
+        echo  '1 4 * * * /usr/sbin/ntpdate asia.pool.ntp.org 2>&1' >> /var/spool/cron/root
+fi
 
 yum -y update
 shutdown -r now
       
 ####################
- Security
+# Security
 ####################
 	# 1.District exuxu
 sed -i "s/#PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
