@@ -68,9 +68,12 @@ cp denyhosts.cfg-dist denyhosts.cfg
 cp daemon-control-dist daemon-control
 ./daemon-control start
 ln -s /usr/share/denyhosts/daemon-control /etc/init.d/denyhosts
+echo "sshd: 110.86.xx.xx" >> /etc/hosts.allow
 chkconfig --add denyhosts
 chkconfig --level 2345 denyhosts on
-	# 3.Iptables
+	# 3.Fail2ban
+	
+	# 4.Iptables
 	
 	
 ####################
