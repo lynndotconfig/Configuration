@@ -75,6 +75,9 @@ chkconfig --level 2345 denyhosts on
 	
 	# 4.Iptables
 	
+	# 5.history
+echo 'export HISTTIMEFORMAT="%F %T `whoami` "' >> /etc/profile
+source /etc/profile
 	
 ####################
  Enviroment 
